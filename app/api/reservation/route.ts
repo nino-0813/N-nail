@@ -79,7 +79,23 @@ async function sendToAppsScript(
   return { ok: true };
 }
 
-/** Google Sheets API でスプレッドシートに1行追記 */
+/** 日本時間で「YYYY-MM-DD HH:mm:ss」を返す（受付日時・予約日のタイムゾーンずれ防止） */
+function formatJST(d: Date): string {
+  return d.toLocaleString("ja-JP", {
+    timeZone: "Asia/Tokyo",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  })
+    .replace(/\//g, "-")
+    .replace(/\s/g, " ");
+}
+
+/** Google Sheets API でスプレッドシートに1行追記（日本時間・日付は文字列のまま） */
 async function appendRowWithSheetsAPI(
   spreadsheetId: string,
   credentials: { client_email: string; private_key: string },
@@ -101,7 +117,7 @@ async function appendRowWithSheetsAPI(
   const sheetName = process.env.GOOGLE_SHEET_NAME || "Sheet1";
   const now = new Date();
   const row = [
-    now.toISOString(),
+    formatJST(now),
     data.date,
     data.time,
     data.menuLabel,
@@ -113,7 +129,7 @@ async function appendRowWithSheetsAPI(
   await sheets.spreadsheets.values.append({
     spreadsheetId,
     range: `${sheetName}!A:H`,
-    valueInputOption: "USER_ENTERED",
+    valueInputOption: "RAW",
     insertDataOption: "INSERT_ROWS",
     requestBody: { values: [row] },
   });
