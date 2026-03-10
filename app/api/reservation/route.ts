@@ -2,7 +2,20 @@ import { NextRequest, NextResponse } from "next/server";
 import { google } from "googleapis";
 import { getServiceAccountCredentials } from "@/lib/google-sheets";
 
-const MENU_IDS = ["onecolor", "simple", "design", "foot"] as const;
+const MENU_IDS = [
+  "clear",
+  "onecolor",
+  "gradient",
+  "magnet",
+  "french",
+  "simple",
+  "design",
+  "length",
+  "off_own_change",
+  "off_own_only",
+  "off_other_change",
+  "off_other_only",
+] as const;
 
 function validateBody(body: unknown): {
   date: string;
