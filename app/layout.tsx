@@ -6,6 +6,16 @@ import Footer from "@/components/Footer";
 export const metadata: Metadata = {
   title: "N nail | Nail Salon",
   description: "広島県福山市駅家町のネイルサロン",
+  applicationName: "Nnailネイルサロン",
+  appleWebApp: {
+    capable: true,
+    title: "Nnailネイルサロン",
+  },
+  manifest: "/manifest.json",
+  icons: {
+    icon: [{ url: "/icon.png", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", sizes: "180x180", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({

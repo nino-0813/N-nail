@@ -2,26 +2,23 @@
 
 import Link from "next/link";
 import { motion } from "motion/react";
-import { User, Images, Calendar, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const sections = [
   {
     title: "About",
     description: "オーナーとサロンの想い",
     href: "/about",
-    icon: User,
   },
   {
     title: "Gallery & Reviews",
     description: "施術例とお客様の声",
     href: "/gallery",
-    icon: Images,
   },
   {
     title: "Reservation",
     description: "メニュー・ご予約",
     href: "/reservation",
-    icon: Calendar,
   },
 ];
 
@@ -64,13 +61,10 @@ export default function HomeIntro() {
                   href={item.href}
                   className="group block p-8 md:p-10 rounded-2xl bg-stone-50/80 hover:bg-stone-100/80 border border-stone-100 hover:border-pink-100 transition-all duration-300"
                 >
-                  <div className="w-10 h-10 rounded-full bg-pink-50 flex items-center justify-center text-pink-400 mb-6 group-hover:bg-pink-100 transition-colors">
-                    <item.icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-xl font-serif text-stone-800 tracking-widest mb-2">
+                  <h3 className="text-2xl md:text-3xl font-serif text-stone-800 tracking-[0.2em] mb-3 group-hover:text-stone-700">
                     {item.title}
                   </h3>
-                  <p className="text-stone-500 text-sm font-light mb-4">
+                  <p className="text-stone-500 text-sm font-light mb-5 leading-relaxed">
                     {item.description}
                   </p>
                   <span className="inline-flex items-center gap-2 text-sm text-stone-600 font-light tracking-wider group-hover:text-pink-400 transition-colors">
