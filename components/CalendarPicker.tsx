@@ -93,46 +93,57 @@ export default function CalendarPicker({ value, onChange, minDate, maxDate }: Pr
   };
 
   return (
-    <div className="inline-block bg-white border border-stone-200 rounded-xl p-4 shadow-sm">
-      <div className="flex items-center justify-between mb-4">
+    <div className="inline-block bg-white border border-stone-200/80 rounded-2xl p-5 md:p-6 shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+      {/* 年月ヘッダー */}
+      <div className="flex items-center justify-between mb-5">
         <button
           type="button"
           onClick={goPrev}
           disabled={!canGoPrev}
-          className="p-2 rounded-lg hover:bg-stone-100 disabled:opacity-30 disabled:pointer-events-none text-stone-600"
+          className="p-2.5 rounded-xl hover:bg-stone-100 text-stone-500 hover:text-stone-700 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           aria-label="前月"
         >
           <ChevronLeft className="w-5 h-5" />
         </button>
-        <span className="text-stone-800 font-medium tabular-nums">
+        <span className="text-stone-800 font-serif text-lg tracking-wide tabular-nums">
           {year}年 {month + 1}月
         </span>
         <button
           type="button"
           onClick={goNext}
           disabled={!canGoNext}
-          className="p-2 rounded-lg hover:bg-stone-100 disabled:opacity-30 disabled:pointer-events-none text-stone-600"
+          className="p-2.5 rounded-xl hover:bg-stone-100 text-stone-500 hover:text-stone-700 disabled:opacity-30 disabled:pointer-events-none transition-colors"
           aria-label="翌月"
         >
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-0.5">
-        {WEEKDAYS.map((w) => (
+      {/* 曜日行 */}
+      <div className="grid grid-cols-7 gap-1 mb-2">
+        {WEEKDAYS.map((w, i) => (
           <div
             key={w}
-            className="text-center text-xs text-stone-500 py-1 font-medium"
+            className={`text-center text-xs py-2 font-medium tabular-nums ${
+              i === 0 ? "text-rose-400/90" : i === 6 ? "text-sky-500/80" : "text-stone-500"
+            }`}
           >
             {w}
           </div>
         ))}
+      </div>
+
+      {/* 日付グリッド */}
+      <div className="grid grid-cols-7 gap-1">
         {days.map((d, i) => {
           if (!d) return <div key={i} />;
           const dayStart = startOfDay(d);
           const isCurrentMonth = d.getMonth() === month;
           const isSelectable = !isBefore(dayStart, min) && !isAfter(dayStart, max);
           const isSelected = selectedDate && isSameDay(d, selectedDate);
+          const isToday = isSameDay(d, today);
+          const isSun = d.getDay() === 0;
+          const isSat = d.getDay() === 6;
 
           return (
             <button
@@ -141,10 +152,11 @@ export default function CalendarPicker({ value, onChange, minDate, maxDate }: Pr
               onClick={() => handleSelect(d)}
               disabled={!isSelectable}
               className={`
-                w-9 h-9 rounded-lg text-sm transition-colors
-                ${!isCurrentMonth ? "text-stone-300" : "text-stone-700"}
-                ${!isSelectable ? "opacity-40 cursor-not-allowed" : "hover:bg-pink-50"}
-                ${isSelected ? "bg-stone-800 text-white hover:bg-stone-700" : ""}
+                w-10 h-10 rounded-xl text-sm font-medium tabular-nums transition-all duration-200
+                ${!isCurrentMonth ? "text-stone-300" : isSun ? "text-rose-400/90" : isSat ? "text-sky-500/80" : "text-stone-700"}
+                ${!isSelectable ? "opacity-35 cursor-not-allowed" : "hover:bg-pink-50 active:scale-95"}
+                ${isSelected ? "bg-pink-500 text-white hover:bg-pink-600 shadow-sm" : ""}
+                ${isToday && !isSelected ? "ring-2 ring-pink-200 ring-offset-2 ring-offset-white" : ""}
               `}
             >
               {d.getDate()}
