@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { motion } from "motion/react";
 import { Star } from "lucide-react";
 
@@ -105,6 +106,15 @@ export default function Gallery() {
               </p>
             </motion.div>
           ))}
+        </div>
+
+        <div className="mt-20 text-center">
+          <Link
+            href="/reservation"
+            className="inline-block px-10 py-4 bg-stone-800 text-white text-sm tracking-widest uppercase hover:bg-stone-700 transition-colors duration-300 rounded-lg shadow-md hover:shadow-lg"
+          >
+            ご予約はこちら
+          </Link>
         </div>
       </div>
     </section>
